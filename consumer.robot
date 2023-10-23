@@ -62,6 +62,8 @@ Load and Process Order
         ...    code=CART_NOT_EMPTY
         ...    message=${err}
     EXCEPT    *Add product to cart*failed*    type=GLOB    AS    ${err}
+        # TODO. SEND EMAIL NOTIFICATION TO ERROR HANDLER
+        # TODO. ASK TO FIX WORK ITEM VARIABLES
         Log    ${err}    level=ERROR
         # You can manipulate the error to
         # extract relevant information.
