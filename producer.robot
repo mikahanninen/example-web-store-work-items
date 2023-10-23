@@ -14,6 +14,12 @@ ${ORDER_FILE_NAME}=     orders.xlsx
 Split orders file
     [Documentation]    Read orders file from input item and split into outputs
     TRY
+        ${email}=    Get Work Item Variable    email
+        Log To Console    TRIGGERED VIA EMAIL: ${email}
+    EXCEPT
+        Pass Execution    message=Not triggered via email
+    END
+    TRY
         Get Work Item File    ${ORDER_FILE_NAME}
     EXCEPT    FileNotFoundError    type=START
         Copy file    devdata/work-items-in/split-orders-file-test-input/orders.xlsx    orders.xlsx
