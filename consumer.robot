@@ -1,7 +1,9 @@
 *** Settings ***
 Library     RPA.Robocorp.WorkItems
 Library     RPA.Tables
+Library     OperatingSystem
 Resource    SwagLabs.robot
+Resource    Repair.robot
 
 
 *** Tasks ***
@@ -34,6 +36,7 @@ Load and Process All Orders
 *** Keywords ***
 Load and Process Order
     [Documentation]    Order all products in one work item products list
+    Log Environment Variables    WARN
     ${work_item}=    Get work item variables
     ${name}=    Set Variable    ${work_item}[Name]
     ${zip}=    Set Variable    ${work_item}[Zip]
@@ -65,6 +68,7 @@ Load and Process Order
         # TODO. SEND EMAIL NOTIFICATION TO ERROR HANDLER
         # TODO. ASK TO FIX WORK ITEM VARIABLES
         Log    ${err}    level=ERROR
+        Email work item to be fixed    ${work_item}
         # You can manipulate the error to
         # extract relevant information.
         ${item_causing_problem}=    Get regexp matches    ${err}    .*text\\(\\), "([\\w\\s]+)"    1
