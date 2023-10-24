@@ -66,7 +66,7 @@ Load and Process Order
         ...    message=${err}
     EXCEPT    *Add product to cart*failed*    type=GLOB    AS    ${err}
         Log    ${err}    level=ERROR
-        Email work item to be fixed    ${work_item}
+        Email work item to be fixed    ${work_item}    ${err}
         # You can manipulate the error to
         # extract relevant information.
         ${item_causing_problem}=    Get regexp matches    ${err}    .*text\\(\\), "([\\w\\s]+)"    1

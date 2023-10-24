@@ -6,7 +6,7 @@ Library     RPA.Robocorp.Storage
 
 *** Keywords ***
 Email work item to be fixed
-    [Arguments]    ${work_item}
+    [Arguments]    ${work_item}    ${error_message}=${NONE}
     ${error_handler}=    Get JSON Asset    Web Store Error Handler
     ${secrets}=    Get Secret    gmailtester2
     Authorize
@@ -22,6 +22,12 @@ Email work item to be fixed
     ...    ---------------\n\n
     ...    WORK_ITEM_ID: %{RC_WORKITEM_ID=NA}\n
     ...    NOTE! PLEASE DO NOT MODIFY WORK_ITEM_ID!
+    IF    ${error_message}
+        ${message_content}=    Set Variable    ${message_content}\n
+        ...    ---ORIGINAL ERROR MESSAGE---\n
+        ...    ${error_message}\n
+        ...    ------------------\n\n
+    END
     Send Message    ${secrets}[username]    ${error_handler}[recipient]
     ...    subject=Problem with work item in process %{RC_PROCESS_NAME=${EMPTY}}
     ...    body=${message_content}
