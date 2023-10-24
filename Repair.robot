@@ -14,7 +14,7 @@ Email work item to be fixed
     ...    password=${secrets}[password]
     ...    imap_server=imap.gmail.com
     ...    smtp_server=smtp.gmail.com
-    ${message_content}=    Set Variable
+    ${message_content}=    CATENATE
     ...    Dear ${error_handler}[recipient_name],\n\n
     ...    Please fix the following work item:\n\n
     ...    ---WORK ITEM---\n
