@@ -4,6 +4,7 @@ Library     RPA.Robocorp.WorkItems
 Library     RPA.Excel.Files
 Library     RPA.Tables
 Library     RPA.FileSystem
+Library     utils.py
 
 
 *** Variables ***
@@ -18,6 +19,8 @@ Split orders file
         Log To Console    TRIGGERED VIA EMAIL: ${email}
         # TODO. MODIFY ERROR WORK ITEM VARIABLES
         # TODO. RETRY WORK ITEM
+        # Update Workitem    work_item_id    data
+        # Retry Workitem    work_item_id
     EXCEPT
         # NORMAL WORKFLOW
         TRY
