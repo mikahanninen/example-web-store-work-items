@@ -14,20 +14,21 @@ Email work item to be fixed
     ...    password=${secrets}[password]
     ...    imap_server=imap.gmail.com
     ...    smtp_server=smtp.gmail.com
+    # TODO. IF %{RC_WORKITEM_ID} IS NOT AVAILABLE THEN CAN'T SEND EMAIL
     ${message_content}=    CATENATE
     ...    Dear ${error_handler}[recipient_name],\n\n
     ...    Please fix the following work item:\n\n
-    ...    ---WORK ITEM DATA---\n
-    ...    ${work_item}\n
-    ...    --------------------\n
-    ...    WORK_ITEM_ID: %{RC_WORKITEM_ID=NA}\n\n
+    ...    COPY TO REPLY MESSAGE STARTING FROM BELOW
+    ...    WORK ITEM DATA:
+    ...    ${work_item}\n\n
+    ...    WORK ITEM ID: %{RC_WORKITEM_ID=NA}\n\n
+    ...    COPY TO REPLY MESSAGE INCLUDING THE ABOVE
     ...    NOTE! PLEASE DO NOT MODIFY WORK_ITEM_ID!
     IF    "${error_message}" != "${NONE}"
         ${message_content}=    CATENATE
         ...    ${message_content}\n\n
         ...    ---ORIGINAL ERROR MESSAGE---\n
         ...    ${error_message}\n
-        ...    ----------------------------\n
     END
     Send Message    ${secrets}[username]    ${error_handler}[recipient]
     ...    subject=Problem with work item in process %{RC_PROCESS_NAME=${EMPTY}}

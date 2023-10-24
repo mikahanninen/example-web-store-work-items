@@ -17,6 +17,8 @@ Split orders file
     TRY
         ${email}=    Get Work Item Variable    email
         Log To Console    TRIGGERED VIA EMAIL: ${email}
+        ${text}=    Set Variable    ${email}[text]
+        Log To Console    TEXT: ${text}
         # TODO. MODIFY ERROR WORK ITEM VARIABLES
         # TODO. RETRY WORK ITEM
         # Update Workitem    work_item_id    data
