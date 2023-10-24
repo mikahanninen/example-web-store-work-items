@@ -15,7 +15,14 @@ Email work item to be fixed
     ...    imap_server=imap.gmail.com
     ...    smtp_server=smtp.gmail.com
     ${message_content}=    Set Variable
-    ...    Dear ${error_handler}[recipient_name],\n\nPlease fix the following work item:\n\n${work_item}\n\nWork item ID: %{RC_WORKITEM_ID=NA}
-    Send Message    ${error_handler}[respond_to]    ${error_handler}[recipient]
+    ...    Dear ${error_handler}[recipient_name],\n\n
+    ...    Please fix the following work item:\n\n
+    ...    ---WORK ITEM---\n
+    ...    ${work_item}\n
+    ...    ---------------\n\n
+    ...    WORK_ITEM_ID: %{RC_WORKITEM_ID=NA}\n
+    ...    NOTE! PLEASE DO NOT MODIFY WORK_ITEM_ID!
+    Send Message    ${secrets}[username]    ${error_handler}[recipient]
     ...    subject=Problem with work item in process %{RC_PROCESS_NAME=${EMPTY}}
     ...    body=${message_content}
+    ...    reply_to=${error_handler}[respond_to]
