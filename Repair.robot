@@ -23,7 +23,8 @@ Email work item to be fixed
     ...    WORK_ITEM_ID: %{RC_WORKITEM_ID=NA}\n
     ...    NOTE! PLEASE DO NOT MODIFY WORK_ITEM_ID!
     IF    "${error_message}" != "${NONE}"
-        ${message_content}=    Set Variable    ${message_content}\n
+        ${message_content}=    CATENATE
+        ...    ${message_content}\n
         ...    ---ORIGINAL ERROR MESSAGE---\n
         ...    ${error_message}\n
         ...    ------------------\n\n
