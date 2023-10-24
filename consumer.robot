@@ -36,7 +36,6 @@ Load and Process All Orders
 *** Keywords ***
 Load and Process Order
     [Documentation]    Order all products in one work item products list
-    Log Environment Variables    WARN
     ${work_item}=    Get work item variables
     ${name}=    Set Variable    ${work_item}[Name]
     ${zip}=    Set Variable    ${work_item}[Zip]
