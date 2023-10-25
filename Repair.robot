@@ -22,7 +22,7 @@ Email work item to be fixed
     ...    1. REPLY TO THIS MESSAGE (reply address is automatically correct to trigger Control Room process)\n
     ...    2. INCLUDE in the reply the text "WORK ITEM DATA: " (and values including {} characters)\n
     ...    3. CORRECT faulty data in the "WORK ITEM DATA"\n
-    ...    4. INCLUDE in the reply the text "WORK ITEM ID: " (and its value (DO NOT MODIFY THE ID))\n
+    ...    4. INCLUDE in the reply the text "WORK ITEM ID: " (and its value - DO NOT MODIFY THE ID!)\n
     ...    5. SEND reply\n\n
     ...    --------------------------------------------\n
     ...    WORK ITEM DATA:\n
