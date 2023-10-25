@@ -6,7 +6,7 @@ import os
 import re
 
 API_BASE_URL = "https://cloud.robocorp.com/api/v1/workspaces"
-TEST_STRING = "WORK ITEM DATA:\n {'Name': 'Sol Heaton', 'Zip': 3695, 'Items': ['Sauce Labs Bolt T-Shirt',\n'Sauce Labs Fleece Jacket', 'Sauce Labs Onesee']}\n WORK ITEM ID: 98faa4c9-3510-4ae3-8a01-eb032ef8164b"
+TEST_STRING = "WORK ITEM DATA:\n {'Name': 'Sol Heaton', 'Zip': 3695, 'Items': ['Sauce Labs Bolt T-Shirt',\n'Sauce Labs Fleece Jacket', 'Sauce Labs One']}\n WORK ITEM ID: 98faa4c9-3510-4ae3-8a01-eb032ef8164b"
 
 
 def extract_data_and_id(text):
@@ -33,7 +33,7 @@ def update_workitem(work_item_id, data):
     HTTP().session_less_post(
         headers=headers,
         url=f"{API_BASE_URL}/{workspace_id}/work-items/{work_item_id}/payload",
-        json=data,
+        json={"payload": data or {}},
     )
 
 
@@ -55,3 +55,5 @@ if __name__ == "__main__":
     data, work_item_id = extract_data_and_id(TEST_STRING)
     print(f"DATA = {data}")
     print(f"WID = {work_item_id}")
+    update_workitem(work_item_id, data)
+    retry_workitem(work_item_id)
