@@ -8,8 +8,8 @@ import re
 API_BASE_URL = "https://cloud.robocorp.com/api/v1/workspaces"
 
 def extract_data_and_id(text):
-    work_item_data_match = re.search(r"WORK ITEM DATA: ({.*?})\S+", text)
-    work_item_id_match = re.search(r"WORK ITEM ID: ([\w|-]*)\S+", text)
+    work_item_data_match = re.search(r"WORK ITEM DATA:.*({.*?})\S+", text)
+    work_item_id_match = re.search(r"WORK ITEM ID:.*([\w|-]*)\S+", text)
     if work_item_data_match and work_item_id_match:
         data = work_item_data_match.group(1)
         try:
