@@ -10,8 +10,8 @@ TEST_STRING = "WORK ITEM DATA:\n {'Name': 'Sol Heaton', 'Zip': 3695, 'Items': ['
 
 
 def extract_data_and_id(text):
-    work_item_data_match = re.search(r"WORK ITEM DATA:\s*(\{.*\})", text, re.DOTALL)
-    work_item_id_match = re.search(r"WORK ITEM ID:\s*([\w|-]*)", text, re.DOTALL)
+    work_item_data_match = re.search(r"WORK.ITEM.DATA:.*(\{.*\})", text, re.DOTALL)
+    work_item_id_match = re.search(r"WORK.ITEM.ID:\s*([\w|-]*)", text, re.DOTALL)
     if work_item_data_match and work_item_id_match:
         data = work_item_data_match.group(1)
         wid = work_item_id_match.group(1)
