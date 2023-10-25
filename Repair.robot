@@ -14,17 +14,21 @@ Email work item to be fixed
     ...    password=${secrets}[password]
     ...    imap_server=imap.gmail.com
     ...    smtp_server=smtp.gmail.com
-    # TODO. IF %{RC_WORKITEM_ID} IS NOT AVAILABLE THEN CAN'T SEND EMAIL
     ${work_item_id}=    Evaluate    $work_item.id
     ${message_content}=    CATENATE
     ...    Dear ${error_handler}[recipient_name],\n\n
-    ...    Please fix the following work item:\n\n
-    ...    COPY TO REPLY MESSAGE STARTING FROM BELOW\n
+    ...    Please fix the following work item.\n\n
+    ...    INSTRUCTIONS:\n
+    ...    1. REPLY TO THIS MESSAGE (reply address is automatically correct to trigger Control Room process)\n
+    ...    2. INCLUDE in the reply the text "WORK ITEM DATA: " (and values including {} characters)\n
+    ...    3. CORRECT faulty data in the "WORK ITEM DATA"\n
+    ...    4. INCLUDE in the reply the text "WORK ITEM ID: " (and its value (DO NOT MODIFY THE ID))\n
+    ...    5. SEND reply\n\n
+    ...    --------------------------------------------\n
     ...    WORK ITEM DATA:\n
     ...    ${work_item_variables}\n\n
     ...    WORK ITEM ID: ${work_item_id}\n\n
-    ...    COPY TO REPLY MESSAGE INCLUDING THE ABOVE
-    ...    NOTE! PLEASE DO NOT MODIFY WORK_ITEM_ID!
+    ...    --------------------------------------------\n
     IF    "${error_message}" != "${NONE}"
         ${message_content}=    CATENATE
         ...    ${message_content}\n\n
