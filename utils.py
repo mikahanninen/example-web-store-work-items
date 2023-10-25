@@ -10,16 +10,17 @@ TEST_STRING = "WORK ITEM DATA:\n {'Name': 'Sol Heaton', 'Zip': 3695, 'Items': ['
 
 
 def extract_data_and_id(text):
-    work_item_data_match = re.search(r"WORK ITEM DATA:.*(\{.*\})", text, re.DOTALL)
-    work_item_id_match = re.search(r"WORK ITEM ID:.*([\w|-]*)", text, re.DOTALL)
+    work_item_data_match = re.search(r"WORK ITEM DATA:\s*(\{.*\})", text, re.DOTALL)
+    work_item_id_match = re.search(r"WORK ITEM ID:\s*([\w|-]*)", text, re.DOTALL)
     if work_item_data_match and work_item_id_match:
         data = work_item_data_match.group(1)
+        wid = work_item_id_match.group(1)
         try:
             data_as_json = ast.literal_eval(data)
         except JSONDecodeError:
             data = data.replace("'", '"')
             data_as_json = ast.literal_eval(data)
-        return data_as_json, work_item_id_match.group(1)
+        return data_as_json, wid
     else:
         return None, None
 
@@ -45,3 +46,9 @@ def retry_workitem(work_item_id):
         url=f"{API_BASE_URL}/{workspace_id}/work-items/batch",
         json=data,
     )
+
+
+if __name__ == "__main__":
+    data, work_item_id = extract_data_and_id(TEST_STRING)
+    print(f"DATA = {data}")
+    print(f"WID = {work_item_id}")

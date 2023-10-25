@@ -17,7 +17,7 @@ Split orders file
     TRY
         ${email}=    Get Work Item Variable    email
         ${data}    ${work_item_id}=    Extract Data And Id    ${email}[text]
-        IF    "${data}" == "${NONE}"
+        IF    "${data}" == "${NONE}" or "${work_item_id}" == "${NONE}"
             Pass Execution    Could not get work item data from the email
         END
         Update Workitem    ${work_item_id}    ${data}
