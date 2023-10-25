@@ -6,11 +6,11 @@ import os
 import re
 
 API_BASE_URL = "https://cloud.robocorp.com/api/v1/workspaces"
-TEST_STRING = "WORK ITEM DATA:\n {'Name': 'Sol Heaton', 'Zip': 3695, 'Items': ['Sauce Labs Bolt T-Shirt',\n'Sauce Labs Fleece Jacket', 'Sauce Labs One']}\n WORK ITEM ID: 98faa4c9-3510-4ae3-8a01-eb032ef8164"
+TEST_STRING = "WORK ITEM DATA:\n {'Name': 'Sol Heaton', 'Zip': 3695, 'Items': ['Sauce Labs Bolt T-Shirt',\n'Sauce Labs Fleece Jacket', 'Sauce Labs Onesee']}\n WORK ITEM ID: 98faa4c9-3510-4ae3-8a01-eb032ef8164b"
 
 
 def extract_data_and_id(text):
-    work_item_data_match = re.search(r"WORK.*ITEM.*DATA:.*(\{.*\})", text, re.DOTALL)
+    work_item_data_match = re.search(r"WORK.*ITEM.*DATA:.*({.*})", text, re.DOTALL)
     work_item_id_match = re.search(r"WORK.*ITEM.*ID:\s*([\w|-]*)", text, re.DOTALL)
     if work_item_data_match and work_item_id_match:
         data = work_item_data_match.group(1)
@@ -26,8 +26,9 @@ def extract_data_and_id(text):
 
 
 def update_workitem(work_item_id, data):
-    workspace_id = os.environ["RC_WORKSPACE_ID"]
-    api_key = Vault().get_secret("webstore")
+    secrets = Vault().get_secret("webstore")
+    api_key = secrets["api_key"]
+    workspace_id = secrets["workspace_id"]
     headers = {"Authorization": f"RC-WSKEY {api_key}"}
     HTTP().session_less_post(
         headers=headers,
@@ -37,8 +38,9 @@ def update_workitem(work_item_id, data):
 
 
 def retry_workitem(work_item_id):
-    workspace_id = os.environ["RC_WORKSPACE_ID"]
-    api_key = Vault().get_secret("webstore")
+    secrets = Vault().get_secret("webstore")
+    api_key = secrets["api_key"]
+    workspace_id = secrets["workspace_id"]
     headers = {"Authorization": f"RC-WSKEY {api_key}"}
     data = {"batch_operation": "retry", "work_item_ids": [work_item_id]}
     HTTP().session_less_post(
@@ -49,6 +51,7 @@ def retry_workitem(work_item_id):
 
 
 if __name__ == "__main__":
+    print(f"TEST_STRING = {TEST_STRING}")
     data, work_item_id = extract_data_and_id(TEST_STRING)
     print(f"DATA = {data}")
     print(f"WID = {work_item_id}")
