@@ -36,10 +36,10 @@ Load and Process All Orders
 *** Keywords ***
 Load and Process Order
     [Documentation]    Order all products in one work item products list
-    ${work_item}=    Get work item variables
-    ${name}=    Set Variable    ${work_item}[Name]
-    ${zip}=    Set Variable    ${work_item}[Zip]
-    ${items}=    Set Variable    ${work_item}[Items]
+    ${work_item_variables}=    Get work item variables
+    ${name}=    Set Variable    ${work_item_variables}[Name]
+    ${zip}=    Set Variable    ${work_item_variables}[Zip]
+    ${items}=    Set Variable    ${work_item_variables}[Items]
     TRY
         Process order    ${name}    ${zip}    ${items}
         Release Input Work Item    DONE
@@ -71,7 +71,8 @@ Load and Process Order
         ${message}=    Catenate
         ...    The requested item '${item_causing_problem}[0]' could not be added to the cart.
         ...    Check spelling and consider trying again.
-        Email work item to be fixed    ${work_item}    ${message}
+        ${work_item}=    Get Current Work Item
+        Email work item to be fixed    ${work_item_variables}    ${work_item}    ${message}
         Release input work item
         ...    state=FAILED
         ...    exception_type=BUSINESS

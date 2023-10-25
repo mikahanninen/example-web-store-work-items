@@ -6,7 +6,7 @@ Library     RPA.Robocorp.Storage
 
 *** Keywords ***
 Email work item to be fixed
-    [Arguments]    ${work_item}    ${error_message}=${NONE}
+    [Arguments]    ${work_item_variables}    ${work_item}    ${error_message}=${NONE}
     ${error_handler}=    Get JSON Asset    Web Store Error Handler
     ${secrets}=    Get Secret    gmailtester2
     Authorize
@@ -15,13 +15,14 @@ Email work item to be fixed
     ...    imap_server=imap.gmail.com
     ...    smtp_server=smtp.gmail.com
     # TODO. IF %{RC_WORKITEM_ID} IS NOT AVAILABLE THEN CAN'T SEND EMAIL
+    ${work_item_id}=    Evaluate    $work_item.id
     ${message_content}=    CATENATE
     ...    Dear ${error_handler}[recipient_name],\n\n
     ...    Please fix the following work item:\n\n
     ...    COPY TO REPLY MESSAGE STARTING FROM BELOW\n
     ...    WORK ITEM DATA:\n
-    ...    ${work_item}\n\n
-    ...    WORK ITEM ID: %{RC_WORKITEM_ID=NA}\n\n
+    ...    ${work_item_variables}\n\n
+    ...    WORK ITEM ID: ${work_item_id}\n\n
     ...    COPY TO REPLY MESSAGE INCLUDING THE ABOVE
     ...    NOTE! PLEASE DO NOT MODIFY WORK_ITEM_ID!
     IF    "${error_message}" != "${NONE}"
