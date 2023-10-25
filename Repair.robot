@@ -18,8 +18,8 @@ Email work item to be fixed
     ${message_content}=    CATENATE
     ...    Dear ${error_handler}[recipient_name],\n\n
     ...    Please fix the following work item:\n\n
-    ...    COPY TO REPLY MESSAGE STARTING FROM BELOW
-    ...    WORK ITEM DATA:
+    ...    COPY TO REPLY MESSAGE STARTING FROM BELOW\n
+    ...    WORK ITEM DATA:\n
     ...    ${work_item}\n\n
     ...    WORK ITEM ID: %{RC_WORKITEM_ID=NA}\n\n
     ...    COPY TO REPLY MESSAGE INCLUDING THE ABOVE
