@@ -26,8 +26,8 @@ Email work item to be fixed
     ...    5. SEND reply\n\n
     ...    --------------------------------------------\n
     ...    WORK ITEM DATA:\n
-    ...    ${work_item_variables}\n\n
-    ...    WORK ITEM ID: ${work_item_id}\n\n
+    ...    ${work_item_variables}\n
+    ...    WORK ITEM ID: ${work_item_id}\n
     ...    --------------------------------------------\n
     IF    "${error_message}" != "${NONE}"
         ${message_content}=    CATENATE
