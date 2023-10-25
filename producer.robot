@@ -20,8 +20,12 @@ Split orders file
         IF    "${data}" == "${NONE}" or "${work_item_id}" == "${NONE}"
             Pass Execution    Could not get work item data from the email
         END
-        Update Workitem    ${work_item_id}    ${data}
-        Retry Workitem    ${work_item_id}
+        ${status}=    Run Keyword and Return Status    Update Workitem    ${work_item_id}    ${data}
+        IF    not $status
+            Pass Execution    Could not update work item variables
+        END
+        ${status}=    Run Keyword and Return Status    Retry Workitem    ${work_item_id}
+        IF    not $status    Pass Execution    Could not retry work item
     EXCEPT
         # NORMAL WORKFLOW
         TRY
