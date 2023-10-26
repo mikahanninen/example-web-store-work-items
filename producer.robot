@@ -16,10 +16,13 @@ Split orders file
     [Documentation]    Read orders file from input item and split into outputs
     TRY
         ${email}=    Get Work Item Variable    email
-        ${data}    ${work_item_id}=    Extract Data And Id    ${email}[text]
-        IF    "${data}" == "${NONE}" or "${work_item_id}" == "${NONE}"
+        # ${data}    ${work_item_id}=    Extract Data And Id    ${email}[text]
+        @{tables}=    Html Tables To Dicts    ${email}[text]
+        IF    len($tables) == 0
             Pass Execution    Could not get work item data from the email
         END
+        ${data}=    Set Variable    ${tables}[0][0]
+        ${work_item_id}=    Set Variable    ${tables}[0][1]
         ${status}=    Run Keyword and Return Status    Update Workitem    ${work_item_id}    ${data}
         IF    not $status
             Pass Execution    Could not update work item variables

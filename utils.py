@@ -2,8 +2,8 @@ from RPA.Robocorp.Vault import Vault
 from RPA.HTTP import HTTP
 import ast
 from json.decoder import JSONDecodeError
-import os
 import re
+from bs4 import BeautifulSoup
 
 API_BASE_URL = "https://cloud.robocorp.com/api/v1/workspaces"
 TEST_STRING = "WORK ITEM DATA:\n {'Name': 'Sol Heaton', 'Zip': 3695, 'Items': ['Sauce Labs Bolt T-Shirt',\n'Sauce Labs Fleece Jacket', 'Sauce Labs One']}\n WORK ITEM ID: 98faa4c9-3510-4ae3-8a01-eb032ef8164b"
@@ -48,6 +48,28 @@ def retry_workitem(work_item_id):
         url=f"{API_BASE_URL}/{workspace_id}/work-items/batch",
         json=data,
     )
+
+def dict_to_html_table(d, work_item_id):
+    html = f'<h5>WORK ITEM ID: {work_item_id}</h5>\n<table id="{work_item_id}">\n<thead>\n<tr><th>key</th><th>val</th></tr>\n</thead>\n<tbody>\n'
+    for k, v in d.items():
+        html += f'<tr><td>{k}</td><td>{v}</td></tr>\n'
+    html += '</tbody>\n</table>\n'
+    return html
+
+def html_tables_to_dicts(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    tables = soup.find_all('table')
+    result = []
+    for table in tables:
+        table_id = table.get('id', None)
+        d = {}
+        for row in table.find_all('tr')[1:]:
+            cells = row.find_all('td')
+            key = cells[0].text
+            val = cells[1].text
+            d[key] = val
+        result.append((d, table_id))
+    return result
 
 
 if __name__ == "__main__":
