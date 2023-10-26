@@ -20,11 +20,12 @@ Email work item to be fixed
     ...    Please fix the following work item.\n\n
     ...    INSTRUCTIONS:\n
     ...    1. REPLY TO THIS MESSAGE (reply address is automatically correct to trigger Control Room process)\n
-    ...    2. INCLUDE in the reply the text "WORK ITEM DATA: " (and values including {} characters)\n
-    ...    3. CORRECT faulty data in the "WORK ITEM DATA"\n
-    ...    4. INCLUDE in the reply the text "WORK ITEM ID: " (and its value - DO NOT MODIFY THE ID!)\n
-    ...    5. CHECK that reply content does not contain original message as a copy\n
-    ...    6. SEND reply\n\n
+    ...    2. DO NOT MODIFY reply subject\n
+    ...    3. INCLUDE in the reply the text "WORK ITEM DATA: " (and values including {} characters)\n
+    ...    4. CORRECT faulty data in the "WORK ITEM DATA"\n
+    ...    5. INCLUDE in the reply the text "WORK ITEM ID: " (and its value - DO NOT MODIFY THE ID!)\n
+    ...    6. CHECK that reply content does not contain original message as a copy\n
+    ...    7. SEND reply\n\n
     ...    --------------------------------------------\n
     ...    WORK ITEM DATA:\n
     ...    ${work_item_variables}\n

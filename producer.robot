@@ -14,20 +14,30 @@ ${ORDER_FILE_NAME}=     orders.xlsx
 *** Tasks ***
 Split orders file
     [Documentation]    Read orders file from input item and split into outputs
-    TRY
-        ${email}=    Get Work Item Variable    email
-        ${data}    ${work_item_id}=    Extract Data And Id    ${email}[text]
-        IF    "${data}" == "${NONE}" or "${work_item_id}" == "${NONE}"
-            Pass Execution    Could not get work item data from the email
-        END
-        ${status}=    Run Keyword and Return Status    Update Workitem    ${work_item_id}    ${data}
-        IF    not $status
-            Pass Execution    Could not update work item variables
+    ${normal_execution}=    Set Variable    ${TRUE}
+    ${email}=    Get Work Item Variable    email    ${NONE}
+    IF    ${email}
+        IF    "Problem with work item in process %{RC_PROCESS_NAME=${EMPTY}}" in "${email}[subject]"
+            ${normal_execution}=    Set Variable    ${FALSE}
+            TRY
+                ${data}    ${work_item_id}=    Extract Data And Id    ${email}[text]
+                IF    "${data}" == "${NONE}" or "${work_item_id}" == "${NONE}"
+                    Pass Execution    Could not get work item data from the email
+                END
+            EXCEPT
+                Pass Execution    Could not get work item data from the email
+            END
+            ${status}=    Run Keyword and Return Status    Update Workitem    ${work_item_id}    ${data}
+            IF    not $status
+                Pass Execution    Could not update work item variables
+            END
         END
         ${status}=    Run Keyword and Return Status    Retry Workitem    ${work_item_id}
         IF    not $status    Pass Execution    Could not retry work item
-    EXCEPT
-        # NORMAL WORKFLOW
+    END
+
+    # NORMAL WORKFLOW
+    IF    ${normal_execution}
         TRY
             Get Work Item File    ${ORDER_FILE_NAME}
         EXCEPT    FileNotFoundError    type=START
