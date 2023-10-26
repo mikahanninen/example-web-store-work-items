@@ -20,21 +20,21 @@ Email work item to be fixed
     ${message_content}=    CATENATE
     ...    Dear ${error_handler}[recipient_name],<br><br>
     ...    Please fix the following work item.<br><br>
-    ...    INSTRUCTIONS:<br>
+    ...    <h3>INSTRUCTIONS:</h3>
     ...    1. REPLY TO THIS MESSAGE (reply address is automatically correct to trigger Control Room process)<br>
     ...    2. INCLUDE in the reply the text "WORK ITEM DATA: " (and values including {} characters)<br>
     ...    3. CORRECT faulty data in the "WORK ITEM DATA"<br>
     # ...    4. INCLUDE in the reply the text "WORK ITEM ID: " (and its value - DO NOT MODIFY THE ID!)\n
     ...    4. CHECK that reply content does not contain original message as a copy<br>
     ...    5. SEND reply<br><br>
-    ...    ---------------------------------<br>
+    # ...    ---------------------------------<br>
     # ...    WORK ITEM DATA:<br>
     ...    ${var_table}<br>
-    ...    ---------------------------------<br>
+    # ...    ---------------------------------<br>
     IF    "${error_message}" != "${NONE}"
         ${message_content}=    CATENATE
         ...    ${message_content}<br><br>
-        ...    ---ORIGINAL ERROR MESSAGE---<br>
+        ...    <h5>---ORIGINAL ERROR MESSAGE---</h5>
         ...    ${error_message}<br>
     END
     Send Message    ${secrets}[username]    ${error_handler}[recipient]
