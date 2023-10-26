@@ -50,10 +50,12 @@ def retry_workitem(work_item_id):
     )
 
 def dict_to_html_table(d, work_item_id):
-    html = f'<h5>WORK ITEM ID: {work_item_id}</h5>\n<table id="{work_item_id}">\n<thead>\n<tr><th>key</th><th>val</th></tr>\n</thead>\n<tbody>\n'
+    html = f'<h5>WORK ITEM ID: {work_item_id}</h5><table id="{work_item_id}" style="width:100%; border-collapse: collapse;">\n'
+    html += '<colgroup><col style="width:50%;"><col style="width:50%;"></colgroup>\n'
+    html += '<thead>\n<tr><th style="text-align:center; background-color:#f2f2f2; border: 1px solid #dddddd; padding: 8px;">key</th><th style="text-align:center; background-color:#f2f2f2; border: 1px solid #dddddd; padding: 8px;">val</th></tr>\n</thead>\n<tbody>\n'
     for k, v in d.items():
-        html += f'<tr><td>{k}</td><td>{v}</td></tr>\n'
-    html += '</tbody>\n</table>\n'
+        html += f'<tr><td style="text-align:center; border: 1px solid #dddddd; padding: 8px;">{k}</td><td style="text-align:center; border: 1px solid #dddddd; padding: 8px;">{v}</td></tr>\n'
+    html += '</tbody>\n</table><br>'
     return html
 
 def html_tables_to_dicts(html):
