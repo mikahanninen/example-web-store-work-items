@@ -31,9 +31,9 @@ Split orders file
             IF    not $status
                 Pass Execution    Could not update work item variables
             END
+            ${status}=    Run Keyword and Return Status    Retry Workitem    ${work_item_id}
+            IF    not $status    Pass Execution    Could not retry work item
         END
-        ${status}=    Run Keyword and Return Status    Retry Workitem    ${work_item_id}
-        IF    not $status    Pass Execution    Could not retry work item
     END
 
     # NORMAL WORKFLOW
