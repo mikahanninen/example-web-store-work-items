@@ -15,15 +15,26 @@ The robot demonstrates the Work Items feature of Robocorp Control Room:
 
 ## Tasks
 
-The robot is split into two tasks, meant to run as separate steps. The first task generates (produces) data, and the second one reads (consumes) and processes that data. A bonus task exists which can be used to mock Control Room and Robot error handling.
+The robot is split into two tasks, meant to run as separate steps. The first task is a main task which can either generates (produces) data or receive work item data to fix previously failing run, and the second one reads (consumes) and processes that data. A bonus task exists which can be used to mock Control Room and Robot error handling.
 
 > [Producer-consumer](https://en.wikipedia.org/wiki/Producer%E2%80%93consumer_problem), Wikipedia.
 
 ### The first task (the producer)
 
+Optional flow 1 - default
+
 - Reads an Excel file from the work item
 - Splits it into orders by customer
 - Creates a new work item for each order
+
+Optional flow 2 - activated when incoming email subject is "Problem with work item in process %{RC_PROCESS_NAME}"
+
+> Note: This flow requires configuration in the Control Room Assets and Vault!
+
+- Parses work item variables from email
+- Updates existing failing work item with new variables
+- Retries work item
+- Does NOT create any output work items
 
 ### The second task (the consumer)
 
@@ -40,6 +51,23 @@ The robot is split into two tasks, meant to run as separate steps. The first tas
   - Some errors will be reported at the Control Room level with appropriate codes and messages.
 - You can automatically retry errors with the [Retry Bot in the Portal](https://robocorp.com/portal/robot/robocorp/example-retry-work-item-bot).
 
+## Optional flow 2 configuration in the Control Room Assets and Vault
+
+- JSON asset "Web Store Error Handler"
+
+````json
+{
+  "recipient": "person-fixing-work-item@example.com",
+  "recipient_name": "John",
+  "respond_to": "the-trigger-email-address-from-the-process-in-the-control-room"
+}```
+
+- Vault secret "webstore"
+
+```yaml
+api_key : <PROCESS_API_KEY>
+workspace_id : <WORKSPACE_ID_OF_THE_PROCESS>
+```
 ## Excel input file
 
 The first task expects an [Excel file](https://github.com/robocorp/example-web-store-work-items/raw/master/devdata/work-items-in/split-orders-file-test-input/orders.xlsx) in a specific format:
@@ -99,3 +127,4 @@ To run specific tasks with specific inputs in the command-line or Robocorp Lab T
 ## Control room setup
 
 To see how to set up Control Room and understand more about how work items are used, see the following article: [Using work items](https://robocorp.com/docs/development-guide/control-room/data-pipeline).
+````

@@ -18,6 +18,7 @@ Split orders file
     ${email}=    Get Work Item Variable    email    ${NONE}
     IF    ${email}
         IF    "Problem with work item in process %{RC_PROCESS_NAME=${EMPTY}}" in "${email}[subject]"
+            # WORKFLOW FOR PROBLEMATIC WORK ITEM
             ${normal_execution}=    Set Variable    ${FALSE}
             TRY
                 ${data}    ${work_item_id}=    Extract Data And Id    ${email}[text]
