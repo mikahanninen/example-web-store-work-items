@@ -55,19 +55,21 @@ Optional flow 2 - activated when incoming email subject is "Problem with work it
 
 - JSON asset "Web Store Error Handler"
 
-````json
+```json
 {
   "recipient": "person-fixing-work-item@example.com",
   "recipient_name": "John",
   "respond_to": "the-trigger-email-address-from-the-process-in-the-control-room"
-}```
+}
+```
 
 - Vault secret "webstore"
 
 ```yaml
-api_key : <PROCESS_API_KEY>
-workspace_id : <WORKSPACE_ID_OF_THE_PROCESS>
+api_key: <PROCESS_API_KEY>
+workspace_id: <WORKSPACE_ID_OF_THE_PROCESS>
 ```
+
 ## Excel input file
 
 The first task expects an [Excel file](https://github.com/robocorp/example-web-store-work-items/raw/master/devdata/work-items-in/split-orders-file-test-input/orders.xlsx) in a specific format:
@@ -127,4 +129,7 @@ To run specific tasks with specific inputs in the command-line or Robocorp Lab T
 ## Control room setup
 
 To see how to set up Control Room and understand more about how work items are used, see the following article: [Using work items](https://robocorp.com/docs/development-guide/control-room/data-pipeline).
-````
+
+```
+
+```
